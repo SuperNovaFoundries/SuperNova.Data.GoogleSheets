@@ -11,10 +11,11 @@ using System.Linq;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
-namespace SuperNova.Coord
+namespace SuperNova.Data.GoogleSheets
 {
     /// <summary>
     /// C# mapping of SuperNova coord-sheet
+    /// TODO: Add logging
     /// </summary>
     public class GoogleSheetsProxy
     {
@@ -28,20 +29,18 @@ namespace SuperNova.Coord
         private readonly string _spreadSheetID;
 
 
-        /// <summary>
-        /// 
-        /// </summary>
         /// <param name="credential">GoogleSheetsAPI credentials</param>
         /// <param name="SpreadSheetID">SuperNova coord spreadSheet ID</param>
-        public GoogleSheetsProxy(UserCredential credential, string applicationName = "SuperNova GoogleSheets Proxy Microservice", string spreadSheetID = "1tyYLfgAqD7Mm1Lv8-fc59RuPdPZ_pa0HYjY7TVI_KKo")
+        public GoogleSheetsProxy(UserCredential credential, string spreadSheetID = "1tyYLfgAqD7Mm1Lv8-fc59RuPdPZ_pa0HYjY7TVI_KKo", string applicationName = "SuperNova GoogleSheets Proxy Microservice")
         {
+            _applicationName = applicationName;
+            _spreadSheetID = spreadSheetID;
             // Create Google Sheets API service.
             _sheets = new SheetsService(new BaseClientService.Initializer()
             {
                 HttpClientInitializer = credential,
                 ApplicationName = _applicationName,
             });
-            _spreadSheetID = spreadSheetID;
         }
 
 
@@ -50,7 +49,7 @@ namespace SuperNova.Coord
             // Define request parameters.
             string range = "Corp-Prices!C45:N386"; //TODO: some better way to handle spreadsheet data (we need to assume that spreadsheet magicians will change something at some point)
             SpreadsheetsResource.ValuesResource.GetRequest request = _sheets.Spreadsheets.Values.Get(_spreadSheetID, range);
-            ValueRange response = await request.ExecuteAsync(); //TODO: cache? wait time ~1 sec 
+            ValueRange response = await request.ExecuteAsync(); //TODO: cache, approx wait time ~1-3 sec 
             IList<CommodityInfo> values = response.Values.Select(x => CommodityInfoFactory.CreateCommodityInfo(x)).ToList();
             return values.FirstOrDefault(x => x?.Ticker == commodityTicker);
         }

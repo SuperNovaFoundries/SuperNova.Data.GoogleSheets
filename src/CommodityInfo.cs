@@ -4,7 +4,7 @@ using System.Linq;
 using System.Collections.Generic;
 
 
-namespace SuperNova.Coord
+namespace SuperNova.Data.GoogleSheets
 {
     using Utils;
     public record CommodityInfo(

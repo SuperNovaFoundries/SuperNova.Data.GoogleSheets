@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel;
 
-namespace SuperNova.Coord.Utils
+namespace SuperNova.Data.GoogleSheets.Utils
 {
     internal static class TypeUtil
     {

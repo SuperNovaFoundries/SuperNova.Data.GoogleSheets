@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Sheets.v4;
 using Google.Apis.Util.Store;
-using SuperNova.Coord;
+using SuperNova.Data.GoogleSheets;
 using Xunit;
 
-namespace SuperNova.Coord.Tests
+namespace SuperNova.Data.GoogleSheets.Tests
 {
     public class GoogleProxyTests
     {
