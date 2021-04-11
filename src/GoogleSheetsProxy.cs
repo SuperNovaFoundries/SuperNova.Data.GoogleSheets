@@ -10,6 +10,7 @@ using System.Threading;
 using System.Linq;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Composition;
 
 namespace SuperNova.Data.GoogleSheets
 {
@@ -17,6 +18,8 @@ namespace SuperNova.Data.GoogleSheets
     /// C# mapping of SuperNova coord-sheet
     /// TODO: Add logging
     /// </summary>
+    
+    [Export]
     public class GoogleSheetsProxy
     {
         private static string _applicationName;
