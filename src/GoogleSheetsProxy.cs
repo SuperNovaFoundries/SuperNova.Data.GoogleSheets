@@ -18,7 +18,7 @@ namespace SuperNova.Data.GoogleSheets
     /// C# mapping of SuperNova coord-sheet
     /// TODO: Add logging
     /// </summary>
-    
+
     [Export]
     public class GoogleSheetsProxy
     {
