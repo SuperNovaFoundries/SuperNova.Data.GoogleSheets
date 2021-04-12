@@ -7,22 +7,25 @@ using System.Collections.Generic;
 namespace SuperNova.Data.GoogleSheets
 {
     using Utils;
-    public record CommodityInfo(
-        string Ticker = null,
-       string Recipe = null,
-       decimal? UnitsPerBatch = null,
-       decimal? InputsCost = null,
-       decimal? PopUpkeep = null,
-       decimal? BuildingROI = null,
-       decimal? CorpRRP = null,
-       decimal? FirstCXAvg = null,
-       decimal? CXShipping = null,
-       decimal? CorpPrice = null,
-       decimal? ActualROI = null,
-       RecSource RecSource = RecSource.NONE)
+    public class CommodityInfo
     {
 
+        public string Ticker = null;
+        public string Recipe = null;
+        public decimal? UnitsPerBatch = null;
+        public decimal? InputsCost = null;
+        public decimal? PopUpkeep = null;
+        public decimal? BuildingROI = null;
+        public decimal? CorpRRP = null;
+        public decimal? FirstCXAvg = null;
+        public decimal? CXShipping = null;
+        public decimal? CorpPrice = null;
+        public decimal? ActualROI = null;
+        public RecSource RecSource = RecSource.NONE;
+
     }
+
+
 
 
     internal static class CommodityInfoFactory
@@ -60,20 +63,20 @@ namespace SuperNova.Data.GoogleSheets
             {
                 decimal r = 0; //local for TryParses
 
-                return new CommodityInfo(
-                (string)prepared[0],
-                (string)prepared[1],
-                RecSource: RecSourceStringToEnum((string)prepared[11]))
+                return new CommodityInfo()
                 {
-                    UnitsPerBatch = decimal.TryParse((string)prepared[2], out r) ? r : null,
-                    InputsCost = decimal.TryParse((string)prepared[3], out r) ? r : null,
-                    PopUpkeep = decimal.TryParse((string)prepared[4], out r) ? r : null,
-                    BuildingROI = decimal.TryParse((string)prepared[5], out r) ? r : null,
-                    CorpRRP = decimal.TryParse((string)prepared[6], out r) ? r : null,
-                    FirstCXAvg = decimal.TryParse((string)prepared[7], out r) ? r : null,
-                    CXShipping = decimal.TryParse((string)prepared[8], out r) ? r : null,
-                    CorpPrice = decimal.TryParse((string)prepared[9], out r) ? r : null,
-                    ActualROI = decimal.TryParse((string)prepared[10], out r) ? r : null,
+                    Ticker = (string)prepared[0],
+                    Recipe = (string)prepared[1],
+                    UnitsPerBatch = decimal.TryParse((string)prepared[2], out r) ? (decimal?)r : null,
+                    InputsCost = decimal.TryParse((string)prepared[3], out r) ? (decimal?)r : null,
+                    PopUpkeep = decimal.TryParse((string)prepared[4], out r) ? (decimal?)r : null,
+                    BuildingROI = decimal.TryParse((string)prepared[5], out r) ? (decimal?)r : null,
+                    CorpRRP = decimal.TryParse((string)prepared[6], out r) ? (decimal?)r : null,
+                    FirstCXAvg = decimal.TryParse((string)prepared[7], out r) ? (decimal?)r : null,
+                    CXShipping = decimal.TryParse((string)prepared[8], out r) ? (decimal?)r : null,
+                    CorpPrice = decimal.TryParse((string)prepared[9], out r) ? (decimal?)r : null,
+                    ActualROI = decimal.TryParse((string)prepared[10], out r) ? (decimal?)r : null,
+                    RecSource = RecSourceStringToEnum((string)prepared[11])
                 };
             }
             catch (Exception e)
