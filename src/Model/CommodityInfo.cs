@@ -1,5 +1,7 @@
 using System.Linq;
 using System.Collections.Generic;
+using System;
+
 
 namespace SuperNova.Data.GoogleSheets
 {
@@ -17,10 +19,10 @@ namespace SuperNova.Data.GoogleSheets
         public decimal? CXShipping { get; set; }
         public decimal? CorpPrice { get; set; }
         public decimal? ActualROI { get; set; }
-        public RecSource RecSource { get; set; } = RecSource.NONE;
+        public RecSource? RecSource { get; set; }
 
         public CommodityInfo() { }
-        
+
         /// <summary>
         /// Creates CommodityInfo out of single sheet row
         /// in non strict manner.
@@ -36,8 +38,8 @@ namespace SuperNova.Data.GoogleSheets
             if (prepared.Length < 12)
                 prepared = prepared.Concat(new object[12 - prepared.Length]).ToArray();
 
-            Ticker = prepared[0].ToString();
-            Recipe = prepared[1].ToString();
+            Ticker = prepared[0]?.ToString();
+            Recipe = prepared[1]?.ToString();
             UnitsPerBatch = prepared[2].ToDecimal();
             InputsCost = prepared[3].ToDecimal();
             PopUpkeep = prepared[4].ToDecimal();
@@ -47,10 +49,10 @@ namespace SuperNova.Data.GoogleSheets
             CXShipping = prepared[8].ToDecimal();
             CorpPrice = prepared[9].ToDecimal();
             ActualROI = prepared[10].ToDecimal();
-            RecSource = prepared[11].ToString().ToEnum<RecSource>();
+            RecSource = prepared[11]?.ToString().ToEnum<RecSource>();
         }
     }
 
-    
+
 
 }
