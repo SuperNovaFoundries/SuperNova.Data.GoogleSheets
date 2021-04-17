@@ -11,6 +11,14 @@
 https://github.com/SuperNovaFoundries</Description>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>..\bin</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>..\bin</OutputPath>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="AWSSDK.SecretsManager" Version="3.7.0.12" />
     <PackageReference Include="Google.Apis.Sheets.v4" Version="1.51.0.2272" />
