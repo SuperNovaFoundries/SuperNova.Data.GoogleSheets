@@ -73,29 +73,27 @@ namespace SuperNova.Data.GoogleSheets
             _logger.LogInformation("GoogleSheetsProxy initialized.");
         }
 
-        
+
 
         public async Task<CommodityInfo> GetCorpCommodityInfoAsync(string commodityTicker)
         {
-            
+
             if (!_init) Init();
 
             var range = "Corp-Prices!C45:N386"; //TODO: some better way to handle spreadsheet data (we need to assume that spreadsheet magicians will change something at some point)
-            var request = _sheetService.Spreadsheets.Values.Get(_spreadSheetID, range);
+            var request = _sheetService.Spreadsheets.Values.Get(_spreadSheetID, range); // Define request parameters.
 
             try
             {
-                // Define request parameters.
                 var response = await request.ExecuteAsync(); //TODO: cache, approx wait time ~1-3 sec 
                 var values = response.Values.Select(x => new CommodityInfo(x.ToArray())).ToList();
                 return values.FirstOrDefault(x => x?.Ticker == commodityTicker);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex.ConcatMessages());
                 return new CommodityInfo();
             }
-           
         }
 
         public void Dispose()

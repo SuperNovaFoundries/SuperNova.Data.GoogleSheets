@@ -17,10 +17,10 @@ namespace SuperNova.Data.GoogleSheets
         public decimal? CXShipping { get; set; }
         public decimal? CorpPrice { get; set; }
         public decimal? ActualROI { get; set; }
-        public RecSource RecSource { get; set; } = RecSource.NONE;
+        public RecSource? RecSource { get; set; }
 
         public CommodityInfo() { }
-        
+
         /// <summary>
         /// Creates CommodityInfo out of single sheet row
         /// in non strict manner.
@@ -51,6 +51,6 @@ namespace SuperNova.Data.GoogleSheets
         }
     }
 
-    
+
 
 }
