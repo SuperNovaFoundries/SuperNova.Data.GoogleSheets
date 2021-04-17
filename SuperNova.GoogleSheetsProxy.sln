@@ -5,7 +5,7 @@ VisualStudioVersion = 16.6.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "test", "test\test.csproj", "{C97CC776-4B56-429C-A1C9-1FCEC6F1E46F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperNovaCoordDataSource", "src\SuperNovaCoordDataSource.csproj", "{1387E689-0619-4BBD-A305-2BB2F4F99157}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperNova.Data.GoogleSheetsProxy", "src\SuperNova.Data.GoogleSheetsProxy.csproj", "{1387E689-0619-4BBD-A305-2BB2F4F99157}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

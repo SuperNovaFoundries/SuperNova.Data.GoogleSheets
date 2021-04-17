@@ -22,7 +22,7 @@
 
 
   <ItemGroup>
-    <ProjectReference Include="..\src\SuperNovaCoordDataSource.csproj" />
+    <ProjectReference Include="..\src\SuperNova.Data.GoogleSheetsProxy.csproj" />
   </ItemGroup>
 
 </Project>

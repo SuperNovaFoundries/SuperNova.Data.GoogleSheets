@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <AssemblyName>SuperNova.Data.GoogleSheets</AssemblyName>
+    <RootNamespace>SuperNova.Data.GoogleSheets</RootNamespace>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>Facilitates read-only access for publicly available Google Sheets.
+https://github.com/SuperNovaFoundries</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AWSSDK.SecretsManager" Version="3.7.0.12" />
+    <PackageReference Include="Google.Apis.Sheets.v4" Version="1.51.0.2272" />
+    <PackageReference Include="SuperNova.AWS.Logging" Version="1.0.21107.1848" />
+    <PackageReference Include="System.Composition" Version="5.0.1" />
+  </ItemGroup>
+
+</Project>

@@ -64,7 +64,7 @@ namespace SuperNova.Data.GoogleSheets
 
         public static decimal? ToDecimal(this object o)
         {
-            return decimal.TryParse(o.ToString(), out var r) ? (decimal?)r : null;
+            return decimal.TryParse(o?.ToString(), out var r) ? (decimal?)r : null;
         }
 
         public static T CastOrDefault<T>(this object o)

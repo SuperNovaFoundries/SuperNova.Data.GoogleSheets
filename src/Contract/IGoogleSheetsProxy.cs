@@ -2,7 +2,7 @@
 
 namespace SuperNova.Data.GoogleSheets.Contract
 {
-    internal interface IGoogleSheetsProxy
+    public interface IGoogleSheetsProxy
     {
         Task<CommodityInfo> GetCorpCommodityInfoAsync(string commodityTicker);
     }

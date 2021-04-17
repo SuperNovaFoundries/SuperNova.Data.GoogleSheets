@@ -21,7 +21,7 @@ namespace SuperNova.Data.GoogleSheets
 
     [Export(typeof(IGoogleSheetsProxy))]
     [Shared]
-    public class GoogleSheetsProxy : IDisposable
+    public class GoogleSheetsProxy : IDisposable, IGoogleSheetsProxy
     {
         private static string _applicationName;
         private SheetsService _sheetService { get; set; }
