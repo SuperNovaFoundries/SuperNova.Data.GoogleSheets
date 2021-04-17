@@ -15,10 +15,10 @@ phases:
       - dotnet restore SuperNova.Data.GoogleSheetsProxy.sln
   build:
     commands:
-     - dotnet build SuperNova.Data.GoogleSheetsProxy -c Release /fl /p:Version=$DLLVERSION /p:DebugSymbols=false /p:DebugType=None
+     - dotnet build SuperNova.Data.GoogleSheetsProxy.sln -c Release /fl /p:Version=$DLLVERSION /p:DebugSymbols=false /p:DebugType=None
   post_build:
     commands:
-     - dotnet publish SuperNova.Data.GoogleSheetsProxy -c Release /p:Version=$DLLVERSION /p:DebugSymbols=false /p:DebugType=None  
+     - dotnet publish SuperNova.Data.GoogleSheetsProxy.sln -c Release /p:Version=$DLLVERSION /p:DebugSymbols=false /p:DebugType=None  
      - dotnet nuget push bin/*.nupkg --api-key $a --source https://api.nuget.org/v3/index.json
 artifacts:
   files:
