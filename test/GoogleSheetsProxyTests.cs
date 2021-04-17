@@ -11,7 +11,7 @@ namespace SuperNova.Data.GoogleSheets.Tests
         [Import] private IGoogleSheetsProxy _proxy { get; set; } = null;
 
         //apiKey removed for security. If a valid key is added here, these tests passes.
-        static string apiKey = "AIzaSyAxRcTCZ4tmCFXl_6Fs4lfYZnqr8g84vco"; 
+        static string apiKey = ""; 
         [Fact]
         public async Task GetCorpPriceTest()
         {

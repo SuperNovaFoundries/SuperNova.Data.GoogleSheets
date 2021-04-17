@@ -11,6 +11,7 @@ using Common;
 using SuperNova.AWS.Logging.Contract;
 using Microsoft.Extensions.Logging;
 using SuperNova.Data.GoogleSheets.Contract;
+using SuperNova.MEF.NetCore;
 
 namespace SuperNova.Data.GoogleSheets
 {
