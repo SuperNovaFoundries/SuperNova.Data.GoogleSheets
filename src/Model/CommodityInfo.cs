@@ -47,7 +47,7 @@ namespace SuperNova.Data.GoogleSheets
             CXShipping = prepared[8].ToDecimal();
             CorpPrice = prepared[9].ToDecimal();
             ActualROI = prepared[10].ToDecimal();
-            Source = prepared[11]?.ToString()?.ToEnum<RecSource>() ?? RecSource.NONE;
+            Source = prepared[11]?.ToString().ToEnum<RecSource>();
         }
     }
 

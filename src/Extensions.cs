@@ -5,6 +5,7 @@ using System.Linq;
 
 namespace SuperNova.Data.GoogleSheets
 {
+    using System.Collections;
     using System.ComponentModel;
     using System.Text;
 
@@ -83,7 +84,76 @@ namespace SuperNova.Data.GoogleSheets
             }
         }
 
+        public static void ActIfNull(this object that, Action a)
+        {
+            if (that == null) a();
+        }
+        public static void ActIfEmpty(this ICollection that, Action a)
+        {
+            if (that.Count == 0) a();
+        }
+        public static void ActIfEmpty(this string that, Action a)
+        {
+            if (that.Equals(string.Empty)) a();
+        }
+        public static void ActIfNotEmpty(this ICollection that, Action a)
+        {
+            if (that.Count != 0) a();
+        }
+        public static void ActIfNotNull(this object that, Action a)
+        {
+            if (that != null) a();
+        }
+        public static void ThrowIfNull<T>(this object that) where T: Exception, new()
+        {
+            that.ActIfNull(() => throw (T)Activator.CreateInstance(typeof(T)));
+        }
+        public static void ThrowIfNull<T>(this object that, string message) where T: Exception, new()
+        {
+            that.ActIfNull(() => throw (T)Activator.CreateInstance(typeof(T), message));
+        }
+        public static void ThrowIfEmpty<T>(this ICollection that) where T : Exception, new()
+        {
+            that.ActIfEmpty(() => throw (T)Activator.CreateInstance(typeof(T)));
+        }
+        public static void ThrowIfEmpty<T>(this ICollection that, string message) where T: Exception, new()
+        {
+            that.ActIfEmpty(() => throw (T)Activator.CreateInstance(typeof(T), message));
+        }
+        public static void ThrowIfEmpty<T>(this string that) where T: Exception, new()
+        {
+            if (that.Equals(string.Empty)) that.ActIfEmpty(() => throw (T)Activator.CreateInstance(typeof(T)));
+        }
+        public static void ThrowIfEmpty<T>(this string that, string message) where T : Exception, new()
+        {
+            if (that.Equals(string.Empty)) that.ActIfEmpty(() => throw (T)Activator.CreateInstance(typeof(T), message));
+        }
+        public static void ActIfNullOrEmpty(this ICollection that, Action a)
+        {
+            that.ActIfNull(a);
+            that.ActIfEmpty(a);
+        }
+        public static void ThrowIfNullOrEmpty<T>(this ICollection that, string message) where T: Exception, new()
+        {
+            that.ThrowIfNull<T>(message);
+            that.ThrowIfEmpty<T>(message);
+        }
+        public static void ThrowIfNullOrEmpty<T>(this ICollection that) where T : Exception, new()
+        {
+            that.ThrowIfNull<T>();
+            that.ThrowIfEmpty<T>();
+        }
 
+        public static void ThrowIfNullOrEmpty<T>(this string that, string message) where T : Exception, new()
+        {
+            that.ThrowIfNull<T>(message);
+            that.ThrowIfEmpty<T>(message);
+        }
+        public static void ThrowIfNullOrEmpty<T>(this string that) where T : Exception, new()
+        {
+            that.ThrowIfNull<T>();
+            that.ThrowIfEmpty<T>();
+        }
 
     }
 

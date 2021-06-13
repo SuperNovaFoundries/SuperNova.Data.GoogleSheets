@@ -11,7 +11,11 @@ namespace SuperNova.Data.GoogleSheets.Tests
         [Import] private IGoogleSheetsProxy _proxy { get; set; } = null;
 
         //apiKey removed for security. If a valid key is added here, these tests passes.
-        static string apiKey = ""; 
+        static string apiKey = "";
+        private string snfCorpSheet = "1tyYLfgAqD7Mm1Lv8-fc59RuPdPZ_pa0HYjY7TVI_KKo";
+
+
+
         [Fact]
         public async Task GetCorpPriceTest()
         {
@@ -38,7 +42,7 @@ namespace SuperNova.Data.GoogleSheets.Tests
             {
                 ApiKey = apiKey
             };
-            CommodityInfo info = await ds.GetCorpCommodityInfoAsync("H2O");
+            CommodityInfo info = await ds.GetCorpCommodityInfoAsync(snfCorpSheet, "H2O");
             Assert.Equal("H2O", info.Ticker);
         }
         [Fact]
