@@ -9,7 +9,7 @@ namespace SuperNova.Data.GoogleSheets.Contract
         Task<CommodityInfo> GetCorpCommodityInfoAsync(string spreadsheetID, string pricesRange, string commodityTicker);
         Task<BatchUpdateValuesResponse> UpdateRange(string spreadsheetId, string range, List<IList<object>> data);
         Task<AppendValuesResponse> AppendRange(string spreadsheetId, string range, List<IList<object>> data);
-
+        Task<string> GetCoordSheetId();
         Task<ValueRange> GetRange(string spreadsheetId, string range);
     }
 }

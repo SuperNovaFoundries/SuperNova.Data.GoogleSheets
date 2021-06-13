@@ -66,6 +66,22 @@ namespace SuperNova.Data.GoogleSheets
             }, false);
         }
 
+        public async Task<string> GetCoordSheetId()
+        {
+            return await EvokeProxyAction("GetApiKeyAsync", async () =>
+            {
+                using var client = new AmazonSecretsManagerClient();
+                var response = await client.GetSecretValueAsync(new GetSecretValueRequest
+                {
+                    SecretId = "supernova/auth/googlesheetid"
+                });
+
+                response.SecretString.ThrowIfNullOrEmpty<Exception>("Unable to retrieve Google Sheets Id!");
+                return response.SecretString;
+            }, false);
+        }
+
+
         public async Task<CommodityInfo> GetCorpCommodityInfoAsync(string spreadsheetId, string pricesRange, string commodityTicker)
         {
             return await EvokeProxyAction("GetCorpCommodityInfoAsync", async () =>
@@ -80,13 +96,12 @@ namespace SuperNova.Data.GoogleSheets
 
         public async Task<ValueRange> GetRange(string spreadsheetId, string range)
         {
-            return await EvokeProxyAction("GetRange", async () =>
+            return await EvokeProxyAction("GetCorpCommodityInfoAsync", async () =>
             {
                 var request = _sheetService.Spreadsheets.Values.Get(spreadsheetId, range);
-                var response = await request.ExecuteAsync(); //TODO: cache, approx wait time ~1-3 sec  
-                return response;
+                return await request.ExecuteAsync(); //TODO: cache, approx wait time ~1-3 sec  
             });
-
+            
         }
 
 
