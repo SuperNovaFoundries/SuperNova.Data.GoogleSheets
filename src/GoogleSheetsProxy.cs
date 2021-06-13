@@ -66,21 +66,31 @@ namespace SuperNova.Data.GoogleSheets
             }, false);
         }
 
-        public async Task<CommodityInfo> GetCorpCommodityInfoAsync(string spreadsheetId, string commodityTicker)
+        public async Task<CommodityInfo> GetCorpCommodityInfoAsync(string spreadsheetId, string pricesRange, string commodityTicker)
         {
             return await EvokeProxyAction("GetCorpCommodityInfoAsync", async () =>
             {
-                var range = "Corp-Prices!C45:N386"; //TODO: some better way to handle spreadsheet data (we need to assume that spreadsheet magicians will change something at some point) 
-                var request = _sheetService.Spreadsheets.Values.Get(spreadsheetId, range);
-                var response = await request.ExecuteAsync(); //TODO: cache, approx wait time ~1-3 sec  
-                var values = response.Values.Select(x => new CommodityInfo(x.ToArray())).ToList();
+                //look into caching?
+                var valueRange = await GetRange(spreadsheetId, pricesRange);
+                var values = valueRange.Values.Select(x => new CommodityInfo(x.ToArray())).ToList();
                 return values.FirstOrDefault(x => x?.Ticker == commodityTicker);
             });
 
         }
 
+        public async Task<ValueRange> GetRange(string spreadsheetId, string range)
+        {
+            return await EvokeProxyAction("GetRange", async () =>
+            {
+                var request = _sheetService.Spreadsheets.Values.Get(spreadsheetId, range);
+                var response = await request.ExecuteAsync(); //TODO: cache, approx wait time ~1-3 sec  
+                return response;
+            });
 
-        public async Task<string> UpdateData(string spreadsheetId, string range, List<IList<object>> data)
+        }
+
+
+        public async Task<BatchUpdateValuesResponse> UpdateRange(string spreadsheetId, string range, List<IList<object>> data)
         {
             var requestData = new BatchUpdateValuesRequest()
             {
@@ -95,10 +105,22 @@ namespace SuperNova.Data.GoogleSheets
                 }
             };
             var request = _sheetService.Spreadsheets.Values.BatchUpdate(requestData, spreadsheetId);
+            return await request.ExecuteAsync();
 
-            var response = await request.ExecuteAsync();
+        }
 
-            return JsonConvert.SerializeObject(response);
+
+
+        public async Task<AppendValuesResponse> AppendRange(string spreadsheetId, string range, List<IList<object>> data)
+        {
+            var valueRange = new ValueRange
+            {
+                Range = range,
+                Values = data
+            };
+            var request = _sheetService.Spreadsheets.Values.Append(valueRange, spreadsheetId, range);
+            return await request.ExecuteAsync();
+            
 
         }
 

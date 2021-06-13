@@ -42,7 +42,7 @@ namespace SuperNova.Data.GoogleSheets.Tests
             {
                 ApiKey = apiKey
             };
-            CommodityInfo info = await ds.GetCorpCommodityInfoAsync(snfCorpSheet, "H2O");
+            CommodityInfo info = await ds.GetCorpCommodityInfoAsync(snfCorpSheet, "Corp-Prices!C45:N386", "H2O");
             Assert.Equal("H2O", info.Ticker);
         }
         [Fact]
