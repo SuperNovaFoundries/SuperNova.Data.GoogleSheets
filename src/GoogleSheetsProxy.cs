@@ -35,6 +35,8 @@ namespace SuperNova.Data.GoogleSheets
         public string Name { get; set; } = "SuperNova.Data.GoogleSheetsProxy";
 
         private SheetsService _sheetService { get; set; }
+
+        private string _sheetId;
         private bool _init = false;
 
         public GoogleSheetsProxy() : base(nameof(GoogleSheetsProxy))
@@ -68,16 +70,27 @@ namespace SuperNova.Data.GoogleSheets
 
         public async Task<string> GetCoordSheetId()
         {
+            
             return await EvokeProxyAction("GetApiKeyAsync", async () =>
             {
-                using var client = new AmazonSecretsManagerClient();
-                var response = await client.GetSecretValueAsync(new GetSecretValueRequest
+                if (string.IsNullOrEmpty(_sheetId))
                 {
-                    SecretId = "supernova/auth/googlesheetid"
-                });
+                    using var client = new AmazonSecretsManagerClient();
+                    var response = await client.GetSecretValueAsync(new GetSecretValueRequest
+                    {
+                        SecretId = "supernova/auth/googlesheetid"
+                    });
 
-                response.SecretString.ThrowIfNullOrEmpty<Exception>("Unable to retrieve Google Sheets Id!");
-                return response.SecretString;
+                    response.SecretString.ThrowIfNullOrEmpty<Exception>("Unable to retrieve Google Sheets Id!");
+                    _sheetId = response.SecretString;
+                    return _sheetId;
+                }
+                else
+                {
+                    return _sheetId;
+                }
+
+                
             }, false);
         }
 
