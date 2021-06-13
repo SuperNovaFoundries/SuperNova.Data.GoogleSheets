@@ -78,7 +78,7 @@ namespace SuperNova.Data.GoogleSheets
                     using var client = new AmazonSecretsManagerClient();
                     var response = await client.GetSecretValueAsync(new GetSecretValueRequest
                     {
-                        SecretId = "supernova/auth/googlesheetid"
+                        SecretId = "supernova/auth/coordsheetid"
                     });
 
                     response.SecretString.ThrowIfNullOrEmpty<Exception>("Unable to retrieve Google Sheets Id!");
