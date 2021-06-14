@@ -14,6 +14,11 @@ using Google.Apis.Util;
 using System.Collections.Generic;
 using Google.Apis.Sheets.v4.Data;
 using Newtonsoft.Json;
+using Amazon.S3;
+using System.IO;
+using Amazon.S3.Model;
+using Amazon.S3.Transfer;
+using Google.Apis.Auth.OAuth2;
 
 namespace SuperNova.Data.GoogleSheets
 {
@@ -46,12 +51,49 @@ namespace SuperNova.Data.GoogleSheets
 
         private async Task InitAsync()
         {
-            _sheetService = new SheetsService(new BaseClientService.Initializer()
+            Logger.LogInformation("GoogleSheetsProxy::Init");
+            try
             {
-                ApiKey = string.IsNullOrEmpty(ApiKey) ? await GetApiKeyAsync() : ApiKey,
-                ApplicationName = Name,
-            });
-            Logger.LogInformation("GoogleSheetsProxy initialized.");
+                string[] scopes = { SheetsService.Scope.Spreadsheets };
+                var request = new GetObjectRequest
+                {
+                    BucketName = "supernova-discordbot",
+                    Key = "credentials.json"
+                };
+                
+                using (var client = new AmazonS3Client())
+                using (var response = await client.GetObjectAsync(request))
+                using (Stream responseStream = response.ResponseStream)
+                using (StreamReader reader = new StreamReader(responseStream))
+                {
+                    var credential = (ServiceAccountCredential)GoogleCredential.FromStream(responseStream).UnderlyingCredential;
+
+                    var initializer = new ServiceAccountCredential.Initializer(credential.Id)
+                    {
+                        User = credential.User,
+                        Key = credential.Key,
+                        Scopes = scopes
+                    };
+                    credential = new ServiceAccountCredential(initializer);
+                    _sheetService = new SheetsService(new BaseClientService.Initializer()
+                    {
+                        //ApiKey = string.IsNullOrEmpty(ApiKey) ? await GetApiKeyAsync() : ApiKey,
+                        ApplicationName = Name,
+                        HttpClientInitializer = credential
+                    });
+                    Logger.LogInformation("GoogleSheetsProxy initialized.");
+                }
+                
+            }
+            catch (AmazonS3Exception e)
+            {
+                Logger.LogError($"Error encountered ***. Message:'{e.Message}' when reading object");
+            }
+            catch (Exception e)
+            {
+                Logger.LogError($"Unknown encountered on server. Message:'{e.Message}' when reading object");
+            }
+            
         }
         private async Task<string> GetApiKeyAsync()
         {
@@ -147,6 +189,8 @@ namespace SuperNova.Data.GoogleSheets
                 Values = data
             };
             var request = _sheetService.Spreadsheets.Values.Append(valueRange, spreadsheetId, range);
+
+            request.ValueInputOption = SpreadsheetsResource.ValuesResource.AppendRequest.ValueInputOptionEnum.USERENTERED;
             return await request.ExecuteAsync();
             
 

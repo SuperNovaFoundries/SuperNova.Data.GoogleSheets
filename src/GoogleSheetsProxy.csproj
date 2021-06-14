@@ -20,6 +20,7 @@ https://github.com/SuperNovaFoundries</Description>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AWSSDK.S3" Version="3.7.1.2" />
     <PackageReference Include="AWSSDK.SecretsManager" Version="3.7.0.12" />
     <PackageReference Include="Google.Apis.Sheets.v4" Version="1.51.0.2272" />
     <PackageReference Include="SuperNova.AWS.Logging" Version="1.0.21107.1848" />
