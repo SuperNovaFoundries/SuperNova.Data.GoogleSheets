@@ -164,7 +164,7 @@ namespace SuperNova.Data.GoogleSheets
         {
             var requestData = new BatchUpdateValuesRequest()
             {
-                ValueInputOption = "USER_INPUT",
+                ValueInputOption = "USER_ENTERED",
                 Data = new List<ValueRange>()
                 {
                     new ValueRange
