@@ -49,21 +49,32 @@ namespace SuperNova.Data.GoogleSheets
             MEFLoader.SatisfyImportsOnce(this);
         }
 
-        private async Task InitAsync()
+        public async Task InitAsync(string configPath = null)
         {
             Logger.LogInformation("GoogleSheetsProxy::Init");
             try
             {
                 string[] scopes = { SheetsService.Scope.Spreadsheets };
-                var request = new GetObjectRequest
+                Stream responseStream;
+
+                if (configPath != null)
                 {
-                    BucketName = "supernova-discordbot",
-                    Key = "credentials.json"
-                };
-                
-                using (var client = new AmazonS3Client())
-                using (var response = await client.GetObjectAsync(request))
-                using (Stream responseStream = response.ResponseStream)
+                    responseStream = File.Open(configPath, FileMode.Open);
+                }
+                else
+                {
+                    var request = new GetObjectRequest
+                    {
+                        BucketName = "supernova-discordbot",
+                        Key = "credentials.json"
+                    };
+
+                    using (var client = new AmazonS3Client())
+                    using (var response = await client.GetObjectAsync(request))
+                        responseStream = response.ResponseStream;
+                }
+
+                using (responseStream)
                 using (StreamReader reader = new StreamReader(responseStream))
                 {
                     var credential = (ServiceAccountCredential)GoogleCredential.FromStream(responseStream).UnderlyingCredential;
@@ -83,7 +94,7 @@ namespace SuperNova.Data.GoogleSheets
                     });
                     Logger.LogInformation("GoogleSheetsProxy initialized.");
                 }
-                
+
             }
             catch (AmazonS3Exception e)
             {
