@@ -10,14 +10,11 @@ using SuperNova.AWS.Logging;
 using SuperNova.MEF.NetCore;
 using Amazon.SecretsManager;
 using Amazon.SecretsManager.Model;
-using Google.Apis.Util;
 using System.Collections.Generic;
 using Google.Apis.Sheets.v4.Data;
-using Newtonsoft.Json;
 using Amazon.S3;
 using System.IO;
 using Amazon.S3.Model;
-using Amazon.S3.Transfer;
 using Google.Apis.Auth.OAuth2;
 
 namespace SuperNova.Data.GoogleSheets

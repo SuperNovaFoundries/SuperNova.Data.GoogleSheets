@@ -11,5 +11,7 @@ namespace SuperNova.Data.GoogleSheets.Contract
         Task<AppendValuesResponse> AppendRange(string spreadsheetId, string range, List<IList<object>> data);
         Task<string> GetCoordSheetId();
         Task<ValueRange> GetRange(string spreadsheetId, string range);
+
+        Task InitAsync(string configPath = null);
     }
 }
