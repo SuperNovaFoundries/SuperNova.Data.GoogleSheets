@@ -91,6 +91,8 @@ namespace SuperNova.Data.GoogleSheets
                     });
                     Logger.LogInformation("GoogleSheetsProxy initialized.");
                 }
+                _init = true;
+                
 
             }
             catch (AmazonS3Exception e)
